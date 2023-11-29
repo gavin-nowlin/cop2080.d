@@ -1,1 +1,1 @@
-# cop2080
+# COP 2080 Final Project
