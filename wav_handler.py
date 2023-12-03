@@ -1,6 +1,4 @@
-import scipy
 import os
-import ffmpeg
 from pydub import AudioSegment
 
 # Converting .mp3 file to .wav
