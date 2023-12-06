@@ -10,13 +10,21 @@ def mp3_to_wav(mp3_audio):
     sound.export(wav_audio, format='wav')
     return sound
 
-# List of audio files
-audio_files = []
+# Returns all .wav and .mp3 files as .wav files
+def get_audio_files():
+    # List of audio files
+    audio_files = []
+    # Getting audio files in audio directory
+    for file in os.listdir():
+        if file.endswith('.wav'):
+            audio_files.append(file)
+        elif file.endswith('.mp3'):
+            mp3_to_wav(file)
+            audio_files.append(file)
+    return audio_files
 
-# Getting audio files in audio directory
-for file in os.listdir():
-    if file.endswith('.mp3'):
-        mp3_to_wav(file)
-        audio_files.append(file)
-    elif file.endswith('.wav'):
-        audio_files.append(file)
+def main():
+    get_audio_files()
+
+if __name__ == "__main__":
+    main()
