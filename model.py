@@ -79,7 +79,7 @@ audio_files = get_audio_files()
 
 # Getting all sample rates and data from first audio file
 sample_rate, data = wavfile.read(audio_files[0])
-    
+
 spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, \
 NFFT=1024, cmap=plt.get_cmap('autumn_r'))
 
