@@ -46,7 +46,35 @@ def load_audio_file():
     #checks if user selects a file
     if file_path:
         plot_wave(file_path)
+        plot_frequency_spectrum(file_path)
 
+def plot_frequency_spectrum(file_path):
+    # Load audio file
+    wave_file = wave.open(file_path, 'rb')
+    framerate = wave_file.getframerate()
+    frames = wave_file.readframes(-1)
+    signal = np.frombuffer(frames, dtype=np.int16)
+
+   # Create a Matplotlib figure
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # Calculate the Short-Time Fourier Transform (STFT)
+    result = plt.specgram(signal, NFFT=1024, Fs=framerate, noverlap=512, cmap='viridis')
+    Sxx = result[2]
+
+    # Displays for the chart
+    plt.xlabel('Time (s)')
+    plt.ylabel('Frequency (Hz)')
+    plt.title('Clap Audio')
+
+    # PIL Image from the Matplotlib figure
+    fig.canvas.draw()
+    img = Image.frombytes('RGB', fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
+
+    # Display the image
+    photo = ImageTk.PhotoImage(img)
+    label.config(image=photo)
+    label.image = photo
 
 def plot_wave(file_path):
     # Load audio file
