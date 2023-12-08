@@ -1,5 +1,11 @@
 import os
 from pydub import AudioSegment
+from tkinter import filedialog
+import tkinter as tk
+import numpy as np
+from PIL import Image, ImageTk
+import wave
+import matplotlib.pyplot as plt
 
 # Converting .mp3 file to .wav
 def mp3_to_wav(mp3_audio):
@@ -28,3 +34,62 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#katelyns changes //////////////////////////////////////
+
+
+def load_audio_file():
+    #filedialogue allows user to pick file w button
+    #askopenfilename is just the request
+
+    file_path = filedialog.askopenfilename(title="Select Audio File", filetypes=[("Audio Files", "*.wav")])
+    #checks if user selects a file
+    if file_path:
+        plot_wave(file_path)
+
+
+def plot_wave(file_path):
+    # Load audio file
+    wave_file = wave.open(file_path, 'rb')
+    framerate = wave_file.getframerate()
+    frames = wave_file.readframes(-1)
+    signal = np.frombuffer(frames, dtype=np.int16)
+
+    # Create a Matplotlib figure
+    fig, ax = plt.subplots(figsize=(8, 6))
+
+    # plot wave
+    time = np.linspace(0, len(signal) / framerate, num=len(signal))
+    plt.plot(time, signal, color='red')
+
+    # Displays for the chart
+    plt.xlabel('Time (s)')
+    plt.ylabel('Amplitude')
+    plt.title('Clap Audio')
+
+    #display as image instead of calling .show()
+    #.show does not work for the wave
+    image_path = 'waveform_plot.png'
+    plt.savefig(image_path)
+
+    #display image using tk
+    img = Image.open(image_path)
+    photo = ImageTk.PhotoImage(img)
+    label.config(image=photo)
+    label.image = photo
+
+
+# Setting up main window with tkinter
+root = tk.Tk()
+root.title("Waveform")
+
+# Create a button to load an audio file
+load_button = tk.Button(root, text="Load Audio File", command=load_audio_file)
+load_button.pack(pady=20, padx=30)
+
+# Create a label to display the spectrogram image
+label = tk.Label(root)
+label.pack()
+
+# call 
+root.mainloop()
