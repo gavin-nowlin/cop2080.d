@@ -1,5 +1,6 @@
 # This file keeps the state information of the system
 
+from view import *
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -73,6 +74,9 @@ def frequency_check(frequency):
 
 # --------------------
 def calculate_rt60(audio_file, frequency):
+    # Handleing .mp3 and .wav files
+    audio_file = clean_file(audio_file)
+    
     # Getting sample rates and data from audio file
     sample_rate, data = wavfile.read(audio_file)
 
