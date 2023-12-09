@@ -1,41 +1,14 @@
+# This file will show how the model is presented and interacted with by
+# the user
+
+from model import *
 import os
-from pydub import AudioSegment
 from tkinter import filedialog
 import tkinter as tk
 import numpy as np
 from PIL import Image, ImageTk
 import wave
 import matplotlib.pyplot as plt
-
-# Converting .mp3 file to .wav
-def mp3_to_wav(mp3_audio):
-    dst, ext = os.path.splitext(mp3_audio)
-    wav_audio = dst + '.wav'
-    
-    sound = AudioSegment.from_mp3(mp3_audio)
-    sound.export(wav_audio, format='wav')
-    return sound
-
-# Returns all .wav and .mp3 files as .wav files
-def get_audio_files():
-    # List of audio files
-    audio_files = []
-    # Getting audio files in audio directory
-    for file in os.listdir():
-        if file.endswith('.wav'):
-            audio_files.append(file)
-        elif file.endswith('.mp3'):
-            mp3_to_wav(file)
-            audio_files.append(file)
-    return audio_files
-
-def main():
-    get_audio_files()
-
-if __name__ == "__main__":
-    main()
-
-#katelyns changes //////////////////////////////////////
 
 
 def load_audio_file():
@@ -45,8 +18,24 @@ def load_audio_file():
     file_path = filedialog.askopenfilename(title="Select Audio File", filetypes=[("Audio Files", file_types)])
     #checks if user selects a file
     if file_path:
-        plot_wave(file_path)
-        plot_frequency_spectrum(file_path)
+        debugg(f"file_path: {file_path}")
+        wave_file = clean_file(file_path)
+        plot_wave(wave_file)
+        plot_frequency_spectrum(wave_file)
+
+def clean_file(file_path):
+    # audio_file = open(file_path, 'rb')
+    # debugg(f"audio_file: {audio_file.name}")
+    # Checking if file is .mp3 and converting to .wav if so
+    if (os.path.splitext(file_path))[1] == ".mp3":
+        debugg(f"File extension: {(os.path.splitext(file_path))[1]}")
+        wave_file = mp3_to_wav(file_path)
+    else:
+        wave_file = wave.open(file_path, 'rb')
+    debugg(f"wave_file: {wave_file}")
+    # Stripping channels and metadata
+    wave_file = audio_stripper(wave_file)
+    return wave_file
 
 def plot_frequency_spectrum(file_path):
     # Load audio file
@@ -106,18 +95,19 @@ def plot_wave(file_path):
     label.config(image=photo)
     label.image = photo
 
+def file_gui():
+    # Setting up main window with tkinter
+    root = tk.Tk()
+    root.title("Waveform")
 
-# Setting up main window with tkinter
-root = tk.Tk()
-root.title("Waveform")
+    # Create a button to load an audio file
+    load_button = tk.Button(root, text="Load Audio File", command=load_audio_file)
+    load_button.pack(pady=20, padx=30)
 
-# Create a button to load an audio file
-load_button = tk.Button(root, text="Load Audio File", command=load_audio_file)
-load_button.pack(pady=20, padx=30)
+    # Create a label to display the spectrogram image
+    global label
+    label = tk.Label(root)
+    label.pack()
 
-# Create a label to display the spectrogram image
-label = tk.Label(root)
-label.pack()
-
-# call 
-root.mainloop()
+    # call 
+    root.mainloop()
