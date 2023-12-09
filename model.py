@@ -73,7 +73,7 @@ def frequency_check():
     return data_in_db_fun
 
 # --------------------
-def calulate_rt60(audio_file):
+def calculate_rt60(audio_file):
     # Getting sample rates and data from audio file
     sample_rate, data = wavfile.read(audio_file)
 
