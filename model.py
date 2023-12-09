@@ -80,12 +80,15 @@ def calculate_rt60(audio_file, frequency):
 
     spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, \
     NFFT=1024, cmap=plt.get_cmap("autumn_r"))
+    plt.title(f"Frequency: {frequency} Hz")
     
     data_in_db = frequency_check(frequency)
+    
     plt.figure()
 
     # Plot reverb time on grid
     plt.plot(t, data_in_db, linewidth=1, alpha=0.7, color="#004bc6")
+    plt.title(f"Frequency: {frequency} Hz")
     plt.xlabel("Time (s)")
     plt.ylabel("Power (dB)")
 
