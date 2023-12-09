@@ -41,8 +41,8 @@ if __name__ == "__main__":
 def load_audio_file():
     #filedialogue allows user to pick file w button
     #askopenfilename is just the request
-
-    file_path = filedialog.askopenfilename(title="Select Audio File", filetypes=[("Audio Files", "*.wav")])
+    file_types = ["*.wav", "*.mp3"]
+    file_path = filedialog.askopenfilename(title="Select Audio File", filetypes=[("Audio Files", file_types)])
     #checks if user selects a file
     if file_path:
         plot_wave(file_path)
