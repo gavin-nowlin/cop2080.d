@@ -1,0 +1,19 @@
+[project]
+name = "Scientific Python Interactive Data Acoustic Modeling"
+version = "0.0.1"
+authors = [{name"Taiji Hashimoto",
+    email="hashimototaiji@gmail.com"},
+    {name="Katelyn Holt",
+    email="kholt5421@floridapoly.edu"},
+    {name="Gavin Nowlin", email="gavinnowlin3@gmail.com"}
+]
+description = "Modeling and analyzing acoustic data using python"
+readme = "README.md"
+require-python = ">=3.11"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operatin System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/gavin-nowlin/cop2080.d"
