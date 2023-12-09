@@ -40,7 +40,6 @@ def audio_stripper(audio_file):
     mono_wav = raw_audio.set_channels(1)
     mono_wav.export(audio_file, format="wav")
     debugg(f"mono_wav path: {audio_file}")
-    return audio_file
 
 # Find a nearest value
 def find_nearest_value(array, value):
@@ -57,9 +56,9 @@ def find_target_frequency(freqs, ideal_freq):
             break
     return x
 
-def frequency_check():
+def frequency_check(frequency):
     debugg(f"freqs {freqs[:10]}")
-    target_frequency = find_target_frequency(freqs, 1000)
+    target_frequency = find_target_frequency(freqs, frequency)
     debugg(f"target_frequency {round(target_frequency, 2)}")
     index_of_frequency = np.where(freqs == target_frequency) [0][0]
     debugg(f"index_of_frequency {index_of_frequency}")
@@ -73,7 +72,7 @@ def frequency_check():
     return data_in_db_fun
 
 # --------------------
-def calculate_rt60(audio_file):
+def calculate_rt60(audio_file, frequency):
     # Getting sample rates and data from audio file
     sample_rate, data = wavfile.read(audio_file)
 
@@ -82,7 +81,7 @@ def calculate_rt60(audio_file):
     spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, \
     NFFT=1024, cmap=plt.get_cmap("autumn_r"))
     
-    data_in_db = frequency_check()
+    data_in_db = frequency_check(frequency)
     plt.figure()
 
     # Plot reverb time on grid

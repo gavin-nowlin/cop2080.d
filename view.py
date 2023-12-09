@@ -34,7 +34,7 @@ def clean_file(file_path):
         wave_file = wave.open(file_path, "rb")
     debugg(f"wave_file: {wave_file}")
     # Stripping channels and metadata
-    wave_file = audio_stripper(wave_file)
+    audio_stripper(wave_file)
     return wave_file
 
 def plot_frequency_spectrum(file_path):

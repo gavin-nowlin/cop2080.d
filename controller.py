@@ -9,7 +9,8 @@ def main():
     file_path = filedialog.askopenfilename(title="Select Audio File", filetypes=[("Audio Files", file_types)])
     #checks if user selects a file
     if file_path:
-        calculate_rt60(file_path)
+        calculate_rt60(file_path, 500)
+    
     # file_gui()
 
 if __name__ == "__main__":
