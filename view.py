@@ -31,15 +31,15 @@ def clean_file(file_path):
         debugg(f"File extension: {(os.path.splitext(file_path))[1]}")
         wave_file = mp3_to_wav(file_path)
     else:
-        wave_file = wave.open(file_path, "rb")
+        wave_file = wave.open(file_path, 'rb')
     debugg(f"wave_file: {wave_file}")
     # Stripping channels and metadata
-    audio_stripper(wave_file)
+    wave_file = audio_stripper(wave_file)
     return wave_file
 
 def plot_frequency_spectrum(file_path):
     # Load audio file
-    wave_file = wave.open(file_path, "rb")
+    wave_file = wave.open(file_path, 'rb')
     framerate = wave_file.getframerate()
     frames = wave_file.readframes(-1)
     signal = np.frombuffer(frames, dtype=np.int16)
@@ -52,13 +52,13 @@ def plot_frequency_spectrum(file_path):
     Sxx = result[2]
 
     # Displays for the chart
-    plt.xlabel("Time (s)")
-    plt.ylabel("Frequency (Hz)")
-    plt.title("Clap Audio")
+    plt.xlabel('Time (s)')
+    plt.ylabel('Frequency (Hz)')
+    plt.title('Clap Audio')
 
     # PIL Image from the Matplotlib figure
     fig.canvas.draw()
-    img = Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
+    img = Image.frombytes('RGB', fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
 
     # Display the image
     photo = ImageTk.PhotoImage(img)
@@ -67,7 +67,7 @@ def plot_frequency_spectrum(file_path):
 
 def plot_wave(file_path):
     # Load audio file
-    wave_file = wave.open(file_path, "rb")
+    wave_file = wave.open(file_path, 'rb')
     framerate = wave_file.getframerate()
     frames = wave_file.readframes(-1)
     signal = np.frombuffer(frames, dtype=np.int16)
@@ -77,16 +77,16 @@ def plot_wave(file_path):
 
     # plot wave
     time = np.linspace(0, len(signal) / framerate, num=len(signal))
-    plt.plot(time, signal, color="red")
+    plt.plot(time, signal, color='red')
 
     # Displays for the chart
-    plt.xlabel("Time (s)")
-    plt.ylabel("Amplitude")
-    plt.title("Clap Audio")
+    plt.xlabel('Time (s)')
+    plt.ylabel('Amplitude')
+    plt.title('Clap Audio')
 
     #display as image instead of calling .show()
     #.show does not work for the wave
-    image_path = "waveform_plot.png"
+    image_path = 'waveform_plot.png'
     plt.savefig(image_path)
 
     #display image using tk
@@ -111,3 +111,5 @@ def file_gui():
 
     # call 
     root.mainloop()
+
+
