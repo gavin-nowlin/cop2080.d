@@ -9,8 +9,8 @@ from scipy.io import wavfile
 
 # Debug printing function
 def debugg(fstring):
-    print(fstring)
-    # pass
+    # print(fstring)
+    pass
 
 # Converting .mp3 file to .wav
 def mp3_to_wav(mp3_audio):

@@ -1,5 +1,9 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "Scientific Python Interactive Data Acoustic Modeling"
+name = "Scientific_Python_Interactive_Data_Acoustic_Modeling"
 version = "0.0.1"
 authors = [{name"Taiji Hashimoto",
     email="hashimototaiji@gmail.com"},
