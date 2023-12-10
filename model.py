@@ -9,16 +9,16 @@ from scipy.io import wavfile
 
 # Debug printing function
 def debugg(fstring):
-    # print(fstring)
-    pass
+    print(fstring)
+    # pass
 
 # Converting .mp3 file to .wav
 def mp3_to_wav(mp3_audio):
     dst, ext = os.path.splitext(mp3_audio)
-    wav_audio = dst + '.wav'
+    wav_audio = dst + ".wav"
     
     sound = AudioSegment.from_mp3(mp3_audio)
-    sound.export(wav_audio, format='wav')
+    sound.export(wav_audio, format="wav")
     debugg(f"sound: {wav_audio}")
     return wav_audio
 
@@ -84,24 +84,21 @@ def calculate_rt60(audio_file, frequency, color):
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12), sharex=True)
 
     # Plot the spectrogram
-    spectrum, freqs, t, im = ax1.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap('autumn_r'))
-    ax1.set_title('Spectrogram')
-    ax1.set_ylabel('Frequency (Hz)')
+    spectrum, freqs, t, im = ax1.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap("autumn_r"))
+    ax1.set_title("Spectrogram")
+    ax1.set_ylabel("Frequency (Hz)")
 
     # Plot reverb time on the second subplot
     data_in_db = frequency_check(frequency)
     ax2.plot(t, data_in_db, linewidth=1, alpha=0.7, color=color)
-    ax2.set_title(f'Reverb Time Plot - Frequency: {frequency} Hz')
-    ax2.set_xlabel('Time (s)')
-    ax2.set_ylabel('Power (dB)')
+    ax2.set_title(f"Reverb Time Plot - Frequency: {frequency} Hz")
+    ax2.set_xlabel("Time (s)")
+    ax2.set_ylabel("Power (dB)")
 
     # Find an index of a max value
     index_of_max = np.argmax(data_in_db)
     value_of_max = data_in_db[index_of_max]
 
-    # Plot max, mid, and min points on the reverb time plot
-    ax2.plot(t[index_of_max], value_of_max, "go", label='Max')
-    
     # Slice array from a max value
     sliced_array = data_in_db[index_of_max:]
 
@@ -116,14 +113,19 @@ def calculate_rt60(audio_file, frequency, color):
     value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
     index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
 
-    ax2.plot(t[index_of_max_less_5], value_of_max_less_5, "yo", label='Max - 5dB')
-    ax2.plot(t[index_of_max_less_25], value_of_max_less_25, "ro", label='Max - 25dB')
+    # Plot max, mid, and min points on the reverb time plot
+    ax2.plot(t[index_of_max], value_of_max, "go", label="Max")
+    ax2.plot(t[index_of_max_less_5], value_of_max_less_5, "yo", label="Max - 5dB")
+    ax2.plot(t[index_of_max_less_25], value_of_max_less_25, "ro", label="Max - 25dB")
     ax2.legend()
-
-    plt.show()
 
     # Extraploating rt20 to get rt60
     rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
     rt60 = 3 * rt20
 
-    debugg(f"The RT60 reverb time is {round(abs(rt60), 2)} seconds")
+    debugg(f"The RT60 reverb time for {frequency} Hz is {round(abs(rt60), 2)} seconds")
+
+    # Showing rt60 time
+    
+
+    plt.show()
