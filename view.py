@@ -1,4 +1,3 @@
-from seconds import *
 from model import *
 import os
 from tkinter import filedialog
