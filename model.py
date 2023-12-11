@@ -10,8 +10,8 @@ from scipy.io import wavfile
 
 # Debug printing function
 def debugg(fstring):
-    print(fstring)
-    # pass
+    # print(fstring)
+    pass
 
 # Converting .mp3 file to .wav
 def mp3_to_wav(mp3_audio):
@@ -134,38 +134,15 @@ def combine_rt60s(audio_file, frequencies = [], colors = {}):
         data_for_frequency = spectrum[index_of_frequency]
         data_in_db = 10 * np.log10(data_for_frequency)
 
-        plt.plot(t, data_in_db, linewidth=1, alpha=0.7, color=colors[frequency])
-        plt.set_title(f"Reverb Time Plot - Frequency: {frequencies} Hz")
-        plt.set_xlabel("Time (s)")
-        plt.set_ylabel("Power (dB)")
+        plt.plot(t, data_in_db, linewidth=1, alpha=0.7, color=(colors.get(frequency)), label=f"{frequency} Hz")
+        plt.title(f"Reverb Time Plot - Frequency: {frequencies} Hz")
+        plt.xlabel("Time (s)")
+        plt.ylabel("Power (dB)")
+        plt.legend(loc="upper left")
 
     plt.show()
 
 def calculate_rt60_time(wave_file, frequency):
-    # # Plot reverb time on the second subplot
-    # data_in_db = frequency_check(frequency)
-
-    # # Find an index of a max value
-    # index_of_max = np.argmax(data_in_db)
-    # value_of_max = data_in_db[index_of_max]
-
-    # # Slice array from a max value
-    # sliced_array = data_in_db[index_of_max:]
-
-    # value_of_max_less_5 = value_of_max - 5
-    # value_of_max_less_25 = value_of_max - 25
-
-    # # Getting index of the closest value in the data to the max value minus 5
-    # value_of_max_less_5 = find_nearest_value(sliced_array, value_of_max_less_5)
-    # index_of_max_less_5 = np.where(data_in_db == value_of_max_less_5)
-
-    # # Getting index of the closest value in the data to the max value minus 25
-    # value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
-    # index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
-
-    # rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
-    # return 3 * rt20
-
     # Plot reverb time on the second subplot
     data_in_db = frequency_check(frequency)
 
