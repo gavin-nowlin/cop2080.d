@@ -20,6 +20,10 @@ def load_audio_file():
         global wave_file
         wave_file = clean_file(file_path)
 
+        extra_data_gui()
+
+        print(f"wave_file 22: {wave_file}")
+
         plot_rt60(wave_file)
 
         show_audio_length(wave_file)
@@ -27,8 +31,6 @@ def load_audio_file():
         show_rt60(wave_file)
 
         plot_wave(wave_file)
-
-        plot_frequency_spectrum(wave_file)
 
         plot_all_rt60s(wave_file)
 
@@ -87,15 +89,6 @@ def plot_frequency_spectrum(file_path):
 
     plt.show()
 
-    # # PIL Image from the Matplotlib figure
-    # fig.canvas.draw()
-    # img = Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
-
-    # # Display the image
-    # photo = ImageTk.PhotoImage(img)
-    # label.config(image=photo)
-    # label.image = photo
-
 def plot_wave(file_path):
     # Load audio file
     wave_file = wave.open(file_path, "rb")
@@ -127,6 +120,14 @@ def plot_wave(file_path):
     # photo = ImageTk.PhotoImage(img)
     # label.config(image=photo)
     # label.image = photo
+
+def load_extra_data():
+    plot_frequency_spectrum(wave_file)
+
+def extra_data_gui():
+    # Create a button to load extra data
+    extra_data_button = tk.Button(root, text="Extra Data", command=load_extra_data)
+    extra_data_button.pack(pady=20, padx=30)
 
 def file_gui():
     # Setting up main window with tkinter
