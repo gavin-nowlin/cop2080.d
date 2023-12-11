@@ -20,19 +20,12 @@ def load_audio_file():
         global wave_file
         wave_file = clean_file(file_path)
 
-        extra_data_gui()
-
-        print(f"wave_file 22: {wave_file}")
-
+        extra_data_button()
         plot_rt60(wave_file)
-
         show_audio_length(wave_file)
-
         show_rt60(wave_file)
-
         plot_wave(wave_file)
-
-        plot_all_rt60s(wave_file)
+        plot_all_rt60s()
 
 
 def clean_file(file_path):
@@ -61,12 +54,12 @@ def plot_rt60(file_path):
     for frequency in frequencies:
         calculate_rt60(file_path, frequency, color_map.get(frequency))
 
-def plot_all_rt60s(file_path):
+def plot_all_rt60s():
     # Specify a list of frequencies
     frequencies = [250, 1000, 5000]
     colors = {250: "blue", 1000: "green", 5000: "red"}
 
-    combine_rt60s(file_path, frequencies, colors)
+    combine_rt60s(frequencies, colors)
 
 def plot_frequency_spectrum(file_path):
     # Load audio file
@@ -110,21 +103,10 @@ def plot_wave(file_path):
 
     plt.show()
 
-    # #display as image instead of calling .show()
-    # #.show does not work for the wave
-    # image_path = "waveform_plot.png"
-    # plt.savefig(image_path)
-
-    # #display image using tk
-    # img = Image.open(image_path)
-    # photo = ImageTk.PhotoImage(img)
-    # label.config(image=photo)
-    # label.image = photo
-
 def load_extra_data():
     plot_frequency_spectrum(wave_file)
 
-def extra_data_gui():
+def extra_data_button():
     # Create a button to load extra data
     extra_data_button = tk.Button(root, text="Extra Data", command=load_extra_data)
     extra_data_button.pack(pady=20, padx=30)

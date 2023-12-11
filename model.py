@@ -127,7 +127,7 @@ def calculate_rt60(audio_file, frequency, color):
 
     plt.show()
 
-def combine_rt60s(audio_file, frequencies = [], colors = {}):
+def combine_rt60s(frequencies = [], colors = {}):
     for frequency in frequencies:
         target_frequency = find_target_frequency(freqs, frequency)
         index_of_frequency = np.where(freqs == target_frequency) [0][0]
