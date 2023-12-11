@@ -1,6 +1,7 @@
 # This file will show how the model is presented and interacted with by
 # the user
 
+from seconds import *
 from model import *
 import os
 from tkinter import filedialog
@@ -12,8 +13,8 @@ import matplotlib.pyplot as plt
 
 
 def load_audio_file():
-    #filedialogue allows user to pick file w button
-    #askopenfilename is just the request
+    # filedialogue allows user to pick file w button
+    # askopenfilename is just the request
     file_types = ["*.wav", "*.mp3"]
     file_path = filedialog.askopenfilename(title="Select Audio File", filetypes=[("Audio Files", file_types)])
     #checks if user selects a file
@@ -22,11 +23,16 @@ def load_audio_file():
         global wave_file
         wave_file = clean_file(file_path)
 
-        plot_wave(wave_file)
-        
         plot_rt60(wave_file)
 
+        show_audio_length(wave_file)
+
+        show_rt60(wave_file)
+
+        plot_wave(wave_file)
+
         plot_frequency_spectrum(wave_file)
+
 
 def clean_file(file_path):
     # audio_file = open(file_path, 'rb')
@@ -48,7 +54,7 @@ def plot_rt60(file_path):
     frequencies = [250, 1000, 5000]
 
     # Create a color map for different frequencies
-    color_map = {250: 'blue', 1000: 'green', 5000: 'red'}
+    color_map = {250: "blue", 1000: "green", 5000: "red"}
 
     # Calculate and plot RT60 for each frequency
     for frequency in frequencies:
@@ -56,7 +62,7 @@ def plot_rt60(file_path):
 
 def plot_frequency_spectrum(file_path):
     # Load audio file
-    wave_file = wave.open(file_path, 'rb')
+    wave_file = wave.open(file_path, "rb")
     framerate = wave_file.getframerate()
     frames = wave_file.readframes(-1)
     signal = np.frombuffer(frames, dtype=np.int16)
@@ -65,7 +71,7 @@ def plot_frequency_spectrum(file_path):
     fig, ax = plt.subplots(figsize=(8, 6))
 
     # Calculate the Short-Time Fourier Transform (STFT)
-    result = plt.specgram(signal, NFFT=1024, Fs=framerate, noverlap=512, cmap='viridis')
+    result = plt.specgram(signal, NFFT=1024, Fs=framerate, noverlap=512, cmap="viridis")
     Sxx = result[2]
 
     # Displays for the chart
@@ -134,3 +140,14 @@ def file_gui():
     # call 
     root.mainloop()
 
+def show_rt60(wave_file):
+    # Showing rt60 value reduce to 0.5 seconds
+    rt60_text = tk.Text(root)
+    rt60_text.insert(tk.END, f"Difference: {round(abs(rt60_difference(wave_file)), 2)}")
+    rt60_text.pack()
+
+def show_audio_length(wave_file):
+    # Showing audio file length
+    audio_length_text = tk.Text(root)
+    audio_length_text.insert(tk.END, f"Audio file length: {round(get_audio_length(wave_file), 2)} s")
+    audio_length_text.pack()
