@@ -44,6 +44,14 @@ def audio_stripper(audio_file):
     debugg(f"mono_wav path: {audio_file}")
     return audio_file
 
+# Returns length of audio file
+def get_audio_length(audio_file):
+    samplerate, data = wavfile.read(audio_file)
+    debugg(f"number of channels = {data.shape[len(data.shape) - 1]}")
+    debugg(f"sample rate = {samplerate}Hz")
+    length = data.shape[0] / samplerate
+    return length
+
 # Find a nearest value
 def find_nearest_value(array, value):
     array = np.asarray(array)
