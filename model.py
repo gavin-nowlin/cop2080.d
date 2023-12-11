@@ -78,7 +78,7 @@ def calculate_rt60(audio_file, frequency, color):
     # Getting sample rates and data from audio file
     sample_rate, data = wavfile.read(audio_file)
 
-    global freqs, spectrum
+    global freqs, spectrum, t
 
     # Create a single subplot with two sets of axes
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 12), sharex=True)
@@ -127,14 +127,44 @@ def calculate_rt60(audio_file, frequency, color):
 
     plt.show()
 
+def combine_rt60s(audio_file, frequencies = [], colors = {}):
+    for frequency in frequencies:
+        target_frequency = find_target_frequency(freqs, frequency)
+        index_of_frequency = np.where(freqs == target_frequency) [0][0]
+        data_for_frequency = spectrum[index_of_frequency]
+        data_in_db = 10 * np.log10(data_for_frequency)
+
+        plt.plot(t, data_in_db, linewidth=1, alpha=0.7, color=colors[frequency])
+        plt.set_title(f"Reverb Time Plot - Frequency: {frequencies} Hz")
+        plt.set_xlabel("Time (s)")
+        plt.set_ylabel("Power (dB)")
+
+    plt.show()
+
 def calculate_rt60_time(wave_file, frequency):
-    # Getting sample rates and data from audio file
-    sample_rate, data = wavfile.read(wave_file)
+    # # Plot reverb time on the second subplot
+    # data_in_db = frequency_check(frequency)
 
-    # global freqs, spectrum
+    # # Find an index of a max value
+    # index_of_max = np.argmax(data_in_db)
+    # value_of_max = data_in_db[index_of_max]
 
-    # Plot the spectrogram
-    spectrum, freqs, t, im = plt.specgram(data, Fs=sample_rate, NFFT=1024, cmap=plt.get_cmap("autumn_r"))
+    # # Slice array from a max value
+    # sliced_array = data_in_db[index_of_max:]
+
+    # value_of_max_less_5 = value_of_max - 5
+    # value_of_max_less_25 = value_of_max - 25
+
+    # # Getting index of the closest value in the data to the max value minus 5
+    # value_of_max_less_5 = find_nearest_value(sliced_array, value_of_max_less_5)
+    # index_of_max_less_5 = np.where(data_in_db == value_of_max_less_5)
+
+    # # Getting index of the closest value in the data to the max value minus 25
+    # value_of_max_less_25 = find_nearest_value(sliced_array, value_of_max_less_25)
+    # index_of_max_less_25 = np.where(data_in_db == value_of_max_less_25)
+
+    # rt20 = (t[index_of_max_less_5] - t[index_of_max_less_25])[0]
+    # return 3 * rt20
 
     # Plot reverb time on the second subplot
     data_in_db = frequency_check(frequency)
